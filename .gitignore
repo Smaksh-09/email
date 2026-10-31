@@ -6,5 +6,6 @@ dist
 build
 .next
 coverage
+*.tsbuildinfo
 *.log
 .DS_Store

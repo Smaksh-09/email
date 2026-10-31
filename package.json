@@ -12,9 +12,7 @@
     "build:api": "npm run build --workspace=apps/api",
     "build:web": "npm run build --workspace=apps/web",
     "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down",
-    "check:services": "node check-services.js",
-    "setup": "npm run docker:up && npm run check:services"
+    "docker:down": "docker compose down"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

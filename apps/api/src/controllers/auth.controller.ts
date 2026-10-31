@@ -15,7 +15,7 @@ const googleClient = new OAuth2Client(
 
 export class AuthController {
   /**
-   * 1. Redirect user to Google OAuth consent screen
+   * Redirects to the Google OAuth consent screen.
    */
   static googleLogin(req: Request, res: Response) {
     const authorizeUrl = googleClient.generateAuthUrl({
@@ -27,7 +27,7 @@ export class AuthController {
   }
 
   /**
-   * 2. Google OAuth callback -> Upsert User -> Auto-create Ethereal Sender -> Redirect to Frontend
+   * Google OAuth callback: upserts the user, provisions a default sender, redirects to the frontend.
    */
   static async googleCallback(req: Request, res: Response) {
     try {
@@ -57,7 +57,7 @@ export class AuthController {
       });
 
       if (!user) {
-        // Create new user
+
         user = await prisma.user.create({
           data: {
             email: payload.email,
@@ -108,7 +108,7 @@ export class AuthController {
   }
 
   /**
-   * 3. Get Current Logged-in User + Senders + Slack Connection Status
+   * Returns the current user with senders and Slack connection status.
    */
   static async getMe(req: AuthRequest, res: Response) {
     try {
@@ -141,7 +141,7 @@ export class AuthController {
   }
 
   /**
-   * 4. Logout
+   * Clears the auth cookie.
    */
   static logout(req: Request, res: Response) {
     res.clearCookie('token');
@@ -149,7 +149,7 @@ export class AuthController {
   }
 
   /**
-   * 5. Initiate Real Slack OAuth Flow
+   * Starts the Slack OAuth flow.
    */
   static slackConnect(req: AuthRequest, res: Response) {
     const state = req.user!.id; // Pass userId in state to link on callback
@@ -162,7 +162,7 @@ export class AuthController {
   }
 
   /**
-   * 6. Slack OAuth Callback
+   * Slack OAuth callback.
    */
   static async slackCallback(req: Request, res: Response) {
     try {
@@ -212,7 +212,7 @@ export class AuthController {
   }
 
   /**
-   * 7. Disconnect Slack
+   * Removes stored Slack credentials.
    */
   static async slackDisconnect(req: AuthRequest, res: Response) {
     try {

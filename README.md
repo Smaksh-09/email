@@ -51,7 +51,7 @@ This system accepts batch and individual email campaigns via REST APIs, schedule
 * **Search Engine:** Elasticsearch 8.13 (`@elastic/elasticsearch`)
 * **SMTP Delivery:** Nodemailer + Ethereal Email (Fake SMTP with live message preview URLs)
 * **Authentication & Integrations:** Google OAuth 2.0 (`google-auth-library`), Slack OAuth v2 (`incoming-webhook` & `chat:write`)
-* **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS, Lucide Icons
+* **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS
 
 ---
 
@@ -151,7 +151,7 @@ NODE_ENV=development
 FRONTEND_URL=http://localhost:3000
 
 # Database
-DATABASE_URL="postgresql://user:password@localhost:5432/xxxxyyyy?schema=public"
+DATABASE_URL="postgresql://user:password@localhost:5432/reachinbox_db?schema=public"
 
 # Redis
 REDIS_HOST=localhost
@@ -166,7 +166,7 @@ DEFAULT_MIN_DELAY_SECONDS=2
 MAX_EMAILS_PER_HOUR_PER_SENDER=50
 
 # JWT Secret
-JWT_SECRET=super_secret_abcdfgihjwt_key_change_in_prod
+JWT_SECRET=change_me_to_a_long_random_string
 
 # Google OAuth 2.0 Credentials
 GOOGLE_CLIENT_ID=your_google_client_id

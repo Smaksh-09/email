@@ -13,7 +13,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
   async (job: Job<EmailJobPayload>, token?: string) => {
     const { emailJobId, campaignHourlyLimit, campaignMinDelaySec } = job.data;
 
-    // 1. Fetch record & Sender from DB
+    // Load the job and its sender
     const emailRecord = await prisma.emailJob.findUnique({
       where: { id: emailJobId },
       include: { sender: true },
@@ -24,7 +24,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
       return { skipped: true, reason: 'NOT_FOUND' };
     }
 
-    // 2. Strict Idempotency Check: Never re-send an already sent email
+    // Never re-send an already sent email
     if (emailRecord.status === 'SENT') {
       console.log(`[Worker] EmailJob ${emailJobId} already marked SENT. Idempotent exit.`);
       return { skipped: true, reason: 'ALREADY_SENT' };
@@ -36,7 +36,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
     const effectiveMinDelaySec =
       campaignMinDelaySec || sender.minDelaySeconds || env.DEFAULT_MIN_DELAY_SECONDS;
 
-    // 3. Distributed Hourly Rate Limit Check
+    // Hourly rate limit
     const rateCheck = await RateLimitService.checkAndIncrementHourlyLimit(
       sender.id,
       effectiveHourlyLimit,
@@ -81,7 +81,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
       }
     }
 
-    // 4. Enforce Minimum Delay Between Consecutive Emails
+    // Minimum delay between sends
     const waitMs = await RateLimitService.acquireMinDelaySlot(sender.id, effectiveMinDelaySec);
     if (waitMs > 0) {
       if (waitMs > 5000 && token) {
@@ -94,7 +94,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
       }
     }
 
-    // 5. Mark as PROCESSING
+    // Mark as PROCESSING
     await prisma.emailJob.update({
       where: { id: emailJobId },
       data: {
@@ -104,7 +104,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
     });
 
     try {
-      // 6. Execute SMTP Send via Ethereal
+      // Send via SMTP
       const smtpResult = await MailService.sendEmail({
         smtpHost: sender.smtpHost,
         smtpPort: sender.smtpPort,
@@ -117,7 +117,7 @@ export const emailWorker = new Worker<EmailJobPayload>(
         html: emailRecord.body,
       });
 
-      // 7. Persist SENT state in Postgres & Elasticsearch
+      // Persist SENT state in Postgres and Elasticsearch
       const sentJob = await prisma.emailJob.update({
         where: { id: emailJobId },
         data: {

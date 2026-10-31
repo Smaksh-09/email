@@ -20,7 +20,7 @@ const scheduleCampaignSchema = z.object({
 
 export class EmailController {
   /**
-   * 1. Create a new Ethereal Sender (Supports Multi-Sender requirement)
+   * Creates an additional Ethereal sender.
    */
   static async createSender(req: AuthRequest, res: Response) {
     try {
@@ -49,7 +49,7 @@ export class EmailController {
   }
 
   /**
-   * 2. Schedule Batch/Single Emails (No Cron - Pure BullMQ Delayed Jobs)
+   * Schedules emails as BullMQ delayed jobs (no cron).
    */
   static async scheduleEmails(req: AuthRequest, res: Response) {
     try {
@@ -98,7 +98,7 @@ export class EmailController {
 
       const baseStartMs = startTime ? Math.max(Date.now(), new Date(startTime).getTime()) : Date.now();
 
-      // Create Campaign record
+
       const campaign = await prisma.campaign.create({
         data: {
           userId,
@@ -180,7 +180,7 @@ export class EmailController {
   }
 
   /**
-   * 3. List Scheduled or Sent Emails (Supports Elasticsearch query or Postgres fallback)
+   * Lists scheduled or sent emails; uses Elasticsearch when `q` is given, Postgres otherwise.
    */
   static async listEmails(req: AuthRequest, res: Response) {
     try {
@@ -229,7 +229,7 @@ export class EmailController {
   }
 
   /**
-   * 4. Get Single Email Details (For viewing an email in the dashboard)
+   * Returns a single email job.
    */
   static async getEmailById(req: AuthRequest, res: Response) {
     try {

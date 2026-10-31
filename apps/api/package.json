@@ -9,7 +9,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "tsx prisma/seed.ts",
+
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -38,8 +38,5 @@
     "prisma": "^6.19.3",
     "rimraf": "^5.0.5",
     "tsx": "^4.7.1"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   }
 }

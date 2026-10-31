@@ -25,7 +25,7 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 
-// 1. Mount Live BullMQ Dashboard (/admin/queues)
+// BullMQ dashboard
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath('/admin/queues');
 
@@ -36,7 +36,7 @@ createBullBoard({
 
 app.use('/admin/queues', serverAdapter.getRouter());
 
-// 2. Mount REST API Routes
+// REST routes
 app.use('/api/auth', authRoutes);
 app.use('/api/emails', emailRoutes);
 
