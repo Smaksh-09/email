@@ -8,19 +8,39 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-brand: #00a843;
+  --color-brand-dark: #008f39;
+  --color-mint: #e4f5ea;
+  --color-soft: #f4f6f5;
+  --color-canvas: #fafafa;
+  --color-line: #ececec;
+  --color-muted: #9ca3af;
+  --color-ink: #1a1a1a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Rich-text editor content styles */
+.rte blockquote {
+  border-left: 3px solid #d1d5db;
+  margin: 0.5rem 0;
+  padding-left: 0.75rem;
+  color: #4b5563;
+}
+.rte ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.rte ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
