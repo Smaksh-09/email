@@ -15,7 +15,7 @@
   "dependencies": {
     "@bull-board/api": "^9.10.5",
     "@bull-board/express": "^9.10.5",
-    "@elastic/elasticsearch": "^9.5.1",
+    "@elastic/elasticsearch": "^8.19.2",
     "@prisma/client": "^6.19.3",
     "axios": "^1.21.0",
     "bullmq": "^6.5.3",
