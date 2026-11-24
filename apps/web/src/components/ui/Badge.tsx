@@ -13,7 +13,7 @@ function Pill({ className, children }: { className: string; children: ReactNode 
   );
 }
 
-/** Status pill matching the Figma list rows. */
+/** Delivery status shown in message lists and details. */
 export function StatusBadge({ status, scheduledAt }: { status: EmailStatus; scheduledAt: string }) {
   switch (status) {
     case 'SCHEDULED':

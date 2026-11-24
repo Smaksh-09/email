@@ -19,7 +19,7 @@ export class SlackService {
         return;
       }
 
-      const messageText = `⚠️ *ReachInbox Rate Limit Reached*\n• *Sender:* \`${params.senderEmail}\`\n• *Hourly Cap:* ${params.hourlyLimit} emails/hr (Window: \`${params.hourWindowKey}:00 UTC\`)\n• *Action Taken:* Remaining scheduled emails are preserved and automatically rescheduled to start at \`${params.nextWindowTime.toUTCString()}\`.`;
+      const messageText = `*Outbox sending limit reached*\n• *Sender:* \`${params.senderEmail}\`\n• *Hourly limit:* ${params.hourlyLimit} emails/hr (window: \`${params.hourWindowKey}:00 UTC\`)\n• *Next attempt:* Queued messages will be retried from \`${params.nextWindowTime.toUTCString()}\`.`;
 
       // 1. Prefer Incoming Webhook URL if granted during OAuth
       if (user.slackWebhookUrl) {
